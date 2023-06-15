@@ -1,9 +1,17 @@
-import { useSelector } from "react-redux";
-import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { fetchdata } from "../redux/UsersSlice";
 
 const ShowData = () => {
   const data = useSelector((state) => state.users);
-const { users, isLoading, error } = data ;
+  const { users, isLoading, error } = data;
+  console.log(users, isLoading);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchdata());
+    console.log(users, isLoading);
+  }, []);
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -12,15 +20,18 @@ const { users, isLoading, error } = data ;
     return <h1>Error: {error}</h1>;
   }
 
-  return (
-    <ul>
-      {users.map((user) => (
-        <li key={user.id}>
-          {`${user.firstName} ${user.lastName}`}
-        </li>
-      ))}
-    </ul>
-  );
+  if (users.length !== 0) {
+    return (
+      <ul>
+        {users.map((user, id) => (
+          <li
+            key={`user${id}`}
+            id={`user${id}`}
+          >{`${user.name.first} ${user.name.last}`}</li>
+        ))}
+      </ul>
+    );
+  }
 };
 
 export default ShowData;
