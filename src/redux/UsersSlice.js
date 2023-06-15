@@ -27,10 +27,10 @@ const UsersSlice = createSlice({
       state.isLoading = true;
     });
 
-    // builder.addCase(fetchdata.rejected, (state, action) => {
-    //   state.error = true;
-    //   state.isLoading = false;
-    // });
+    builder.addCase(fetchdata.rejected, (state, action) => {
+      state.error = "some error occured";
+      state.isLoading = false;
+    });
 
     builder.addCase(fetchdata.fulfilled, (state, action) => {
       state.isLoading = false;
